@@ -1,0 +1,41 @@
+deployment:
+      containers:
+        image: nginx:latest
+        ports:
+          containerPort: 80
+        resources:
+          requests:
+            memory: "64Mi"  # Memória minima
+            cpu: "250m"  # CPU solicitada
+          limits:
+            memory: "128Mi"  # Memória máxima
+            cpu: "500m"  # CPU máxima
+
+service:
+  ports:
+      protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30000
+  type: NodePort
+
+ingress:
+    http:
+      paths:
+        path: /
+        pathType: Prefix
+        backend:
+          service:
+            port:
+              number: 80
+
+hpa:
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+    type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 2
