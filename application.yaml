@@ -1,0 +1,23 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: minha-aplicacao
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/seu-usuario/seu-repo.git
+    targetRevision: main  # Branch main
+    path: .  # Pasta onde está o chart
+    helm:
+      valueFiles:
+        - values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: minha-app-namespace
+  syncPolicy:
+    automated:
+      prune: true       # Remove recursos que foram deletados do repositório
+      selfHeal: true    # Corrige recursos que foram alterados fora do Git
+    syncOptions:
+      - CreateNamespace=true
