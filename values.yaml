@@ -30,7 +30,7 @@ ingress:
               number: 80
 
 hpa:
-  minReplicas: 2
+  minReplicas: 5
   maxReplicas: 10
   metrics:
     type: Resource
