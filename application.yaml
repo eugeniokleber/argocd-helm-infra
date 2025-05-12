@@ -6,18 +6,21 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/seu-usuario/seu-repo.git
-    targetRevision: main  # Branch main
-    path: .  # Pasta onde está o chart
+    repoURL: git@github.com:eugeniokleber/argocd-helm-infra.git
+    targetRevision: main  # Branch alvo
+    path: .               # Pasta onde está o chart
     helm:
       valueFiles:
         - values.yaml
   destination:
     server: https://kubernetes.default.svc
-    namespace: minha-app-namespace
+    namespace: my-namespace
   syncPolicy:
     automated:
       prune: true       # Remove recursos que foram deletados do repositório
       selfHeal: true    # Corrige recursos que foram alterados fora do Git
     syncOptions:
       - CreateNamespace=true
+      - SyncTimeout=5m
+      - ReSyncPeriod=10m
+      - Force=true
