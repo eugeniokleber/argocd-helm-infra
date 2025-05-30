@@ -2,9 +2,9 @@
 
 Este projeto demonstra como empacotar um Helm chart localmente e implantá-lo usando o Argo CD.
 
----
+**Estrutura de diretórios**
 
-## Estrutura de diretórios
+```bash
 .
 ├── apps
 │   └── nginx-webserver
@@ -12,38 +12,45 @@ Este projeto demonstra como empacotar um Helm chart localmente e implantá-lo us
 │       ├── charts
 │       │   └── nginx-webserver-0.1.0.tgz
 │       ├── Chart.yaml
-│       ├── templates
-│       │   ├── deployment.yaml
-│       │   ├── hpa.yaml
-│       │   ├── ingress.yaml
-│       │   └── service.yaml
 │       └── values.yaml
 └── README.md
 
+```
 
----
-
-## 1. Exemplo de como empacotar o Helm chart
+**1. Gerar o pacote do Helm Chart**
 
 ```bash
 cd apps/nginx-webserver/
 
 # Gerar o pacote .tgz no diretório charts na raiz
 helm package . --destination ../../charts
+```
 
-# Testar o chart sem o argo
+**2. Testar o chart sem o argo localmente**
+
+```bash
+# Renderize os manifests usando helm template:
 helm template teste charts/nginx-webserver-0.1.0.tgz
 
+# Instale o Chart no cluster Kubernetes:
 helm install teste charts/nginx-webserver-0.1.0.tgz
+```
 
-# Liste os services
+**3. Validando a instalação e listando os services**
+
+```bash
+# Listar os services:
 kubectl get svc
 
-# Achar o service, por exemplo, teste, execute:
+# Ver detalhes do service criado (exemplo com nome teste):
 kubectl get svc teste -o wide
+```
+**4. Gerenciar a release**
 
+```bash
 # Listando as releases instaladas
 helm list
 
-# Removendo as releaser instaladas
+# Desinstalar uma release
 helm uninstall teste
+```
