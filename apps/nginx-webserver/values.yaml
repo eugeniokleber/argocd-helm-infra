@@ -13,10 +13,10 @@ deployment:
 
 service:
   ports:
-    protocol: TCP
-    port: 80
-    targetPort: 80
-    nodePort: 30000
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30000
   type: NodePort
 
 ingress:
