@@ -11,13 +11,14 @@ deployment:
             memory: "128Mi"  # Memória máxima
             cpu: "500m"  # CPU máxima
 
-service:
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
-      nodePort: 30000
-  type: NodePort
+nginx-webserver:
+  service:
+    ports:
+      - protocol: TCP
+        port: 80
+        targetPort: 80
+        nodePort: 30000
+    type: NodePort
 
 ingress:
     http:
